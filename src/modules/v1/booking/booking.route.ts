@@ -5,6 +5,9 @@ import { bookingController } from "./booking.controller";
 const router = Router();
 
 
+// auto return
+bookingController.returnBooking
+
 router.post("/",bookingController.createBooking);
 
 

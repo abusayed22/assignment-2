@@ -23,7 +23,6 @@ app.use("/api/v1/users",userRouter);
 
 // Route Vehicle
 app.use("/api/v1/vehicles",vehicleRouter)
-app.use("/api/v1/vehicles",vehicleRouter)
 
 // Route bookings
 app.use("/api/v1/bookings",bookingRouter)

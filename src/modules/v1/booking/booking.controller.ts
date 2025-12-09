@@ -37,7 +37,7 @@ const getBookings = async (req: Request, res: Response) => {
         const user = (req as any).user; 
 
         // Pass ID and Role to service
-        const result = await bookingService.viewBookings(user.id, user.role);
+        const result = await bookingService.viewBookings(user);
 
         // Customize message based on role
         const message = user.role === 'admin' 
@@ -67,14 +67,16 @@ const updateBookingStatus = async(req:Request,res:Response) => {
     try {
         const {status} = req.body;
         const id = req.params.bookingId
-        const bookingId = Number(id)
+        const bookingId = Number(id);
+        const user = (req as any).user; 
 
-        // const result = await bookingService.updateBookingStatus(bookingId,status);
+        const result = await bookingService.updateBookingStatus(bookingId,user,status);
 
-        // res.status(200).json({
-        //     success:true,
-        //     message: ""
-        // })
+        res.status(200).json({
+            success:true,
+            message: "Booking cancelled successfully",
+            data:result
+        })
 
     } catch (error:any) {
         res.status(500).json({
@@ -85,8 +87,29 @@ const updateBookingStatus = async(req:Request,res:Response) => {
 }
 
 
+
+const returnBooking = async(req:Request,res:Response) => {
+    
+    try {
+        const result = await bookingService.autoReturnBookings();
+
+        res.status(200).json({
+            success:true,
+            message: "Booking marked as returned. Vehicle is now available",
+            data:result
+        })
+        
+    } catch (error:any) {
+        res.status(500).json({
+            success:true,
+            message: error.message,
+        })
+    }
+}
+
 export const bookingController = {
     createBooking,
     getBookings,
     updateBookingStatus,
+    returnBooking,
 }
